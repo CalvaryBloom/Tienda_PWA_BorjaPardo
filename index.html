@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tienda Demo | Galería de Productos</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#00897B" />
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("sw.js")
+          .then(() => console.log("✅ Service Worker registrado"))
+          .catch((err) => console.log("❌ Error en Service Worker:", err));
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <header>
+    <h1>Tienda Demo</h1>
+    <p>Galería de productos con imágenes y videos</p>
+    <a href="carrito.html" class="btn-carrito-header">
+      🛒 Ver Carrito <span id="cart-count"
+        style="background:red; color:white; border-radius:50%; padding:2px 6px; font-size:12px;">0</span>
+    </a>
+  </header>
+
+  <!-- 🔍 BUSCADOR -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Buscar productos..." onkeyup="searchProducts()" />
+  </div>
+
+  <main class="gallery">
+    <!-- Products will be injected here via JavaScript -->
+  </main>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

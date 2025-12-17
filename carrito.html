@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrito | Tienda Demo</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header>
+    <h1>🛒 Carrito de Compras</h1>
+    <a href="index.html" class="btn-carrito-header">← Volver a la tienda</a>
+  </header>
+
+  <main id="cart" class="gallery" style="display: block;"></main>
+
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("cart");
+
+      if (cart.length === 0) {
+        container.innerHTML = "<div style='text-align:center; padding: 2rem; color: #64748b;'><h3>Tu carrito está vacío 😔</h3><p>¡Vuelve a la tienda y añade algunos productos increíbles!</p></div>";
+        return;
+      }
+
+      container.innerHTML = cart
+        .map(
+          (item, index) => `
+      <div class="product-card" style="flex-direction: row; padding: 1rem; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <img src="${item.image}" style="width: 80px; height: 80px; object-fit: contain; border-radius: 8px; background: #f1f5f9; padding: 0.5rem;" />
+          <div>
+            <h3 style="margin: 0; font-size: 1.1rem;">${item.name}</h3>
+            <p style="margin: 0.25rem 0; color: #64748b;">$${item.price.toFixed(2)}</p>
+          </div>
+        </div>
+        <button onclick="removeItem(${index})" style="width: auto; background: #ef4444; margin: 0; padding: 0.5rem 1rem; font-size: 0.9rem;">Eliminar</button>
+      </div>
+    `
+        )
+        .join("");
+
+      // Add Total Calculation
+      const total = cart.reduce((sum, item) => sum + item.price, 0);
+      container.innerHTML += `
+        <div style="margin-top: 2rem; text-align: right; padding: 1rem; border-top: 1px solid #e2e8f0;">
+          <h2 style="margin: 0;">Total: $${total.toFixed(2)}</h2>
+          <button style="width: auto; margin-top: 1rem; padding: 0.75rem 2rem; background: var(--primary, #2563eb);">Proceder al Pago</button>
+        </div>
+      `;
+    }
+
+    function removeItem(i) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(i, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+    }
+
+    loadCart();
+  </script>
+</body>
+
+</html>
